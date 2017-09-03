@@ -1,0 +1,56 @@
+from striga.service.sproaster import ResidentSubprocess
+
+@StrigaViewEntry
+def main(ctx, out, SubprocessRoaster):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+
+	<html:
+		<head:
+			<title:="Subprocess Roaster Test Page"
+			<link rel="stylesheet" type="text/css" href="/css/striga.css"
+			<meta "http-equiv"="refresh" content="1"
+
+		<body:
+			<h1: ='Subprocess Roaster Test'
+
+			<h2: ='Controls'
+			<form method="POST" action="":
+				<ul:
+					<li:
+						<button type="submit" name="test_oneshot" value="1":
+							='One Shot process test'
+
+					<li:
+						<button type="submit" name="test_oneshot_error" value="1":
+							='One Shot process error test'
+
+					<li:
+						<button type="submit" name="test_oneshot_python" value="1":
+							='One Shot process Python test'
+
+					<li:
+						<button type="submit" name="test_oneshot_sudo" value="1":
+							='One Shot process Sudo test'
+
+					<li:
+						<button type="submit" name="test_resident" value="1":
+							='Resident process test'
+
+
+					<li:
+						<button type="submit" name="test_resident_error" value="1":
+							='Resident process error test'
+
+
+			<h2: ='Subprocess Roaster'
+			<form method="POST" action="":
+				<ul:
+					for sp in SubprocessRoaster:
+						<li:
+							if isinstance(sp, ResidentSubprocess) and sp.GetState() == 'E':
+								<button type="submit" name="errorrec_del" value=sp.UID: ="Delete"
+								<button type="submit" name="errorrec_sch" value=sp.UID: ="Reschedule"
+							else:
+								if sp.GetState() == 'R':
+									<button type="submit" name="terminate" value=sp.UID: ="Terminate"
+							=sp

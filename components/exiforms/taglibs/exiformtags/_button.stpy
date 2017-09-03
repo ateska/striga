@@ -1,0 +1,54 @@
+import os
+
+###
+
+class Buttons(SingletonTag):
+
+	ButtonDirectory = {
+		'D' : ('_action-delete', 'Delete'),
+
+		'Ie' : ('_action-insert-exit', 'Insert & Exit'),
+		'In' : ('_action-insert-new', 'Insert & New'),	#TODO: Better name ...
+		'Id' : ('_action-insert-edit', 'Insert & Edit'),
+		'Is' : ('_action-insert-show', 'Insert & Show'),
+
+		'Ue' : ('_action-update-exit', 'Update & Exit'),
+		'Ud' : ('_action-update-edit', 'Update & Stay'),
+		'Us' : ('_action-update-show', 'Update & Show'),
+
+		'Ce' : ('_action-cancel-exit', 'Cancel & Exit'),
+		'Cs' : ('_action-cancel-show', 'Cancel & Show'),
+		'Cd' : ('_action-cancel-edit', 'Revert'),
+	}
+
+	ValidButtonsForViewMode = {
+		'new' : frozenset(['Ie', 'In', 'Id', 'Is', 'Ce']),
+		'edit' : frozenset(['D', 'Ue', 'Ud', 'Us', 'Cs', 'Ce', 'Cd']),
+	}
+
+	@classmethod
+	def Empty(cls, ctx, out):
+		formd = ctx.Stack.front('exiforms.formd')
+
+		if formd.ViewMode == 'show':
+			# In 'show' view mode, only visible button is 'edit'
+			<a class="exiform-button" href=formd.Controller.ControllerBaseURL + '/' + formd.Controller.ViewModeEditName + "/" +  str(formd.GetID()):
+				='Edit'
+			return
+
+		if formd.ViewMode == 'edit':
+			Bs = ['Us', 'Cs', 'Cd', 'D']
+
+		if formd.ViewMode == 'new':
+			Bs = ['Is', 'Ce']
+
+		for d in formd.DisabledActions:
+			Bs.remove(d)
+
+		vb = cls.ValidButtonsForViewMode[formd.ViewMode]
+
+		for B in Bs:
+			if B not in vb:
+				raise RuntimeError("Invalid button code '%s' (for view mode '%s')" % (B, formd.ViewMode))
+			name, value = cls.ButtonDirectory[B]
+			<input class="exiform-button" type="submit" name=name value=value

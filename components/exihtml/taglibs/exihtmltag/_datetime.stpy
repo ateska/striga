@@ -1,0 +1,10 @@
+
+class datetimespan(SingletonTag):
+
+	@classmethod
+	def Empty(cls, ctx, out, datetime, format=r'%d. %b %Y %H:%M:%S', class_ = 'exi-date', noneFormat = '-'):
+		<span class=class_ title=('' if datetime.tzinfo is None else 'Time zone: {0}'.format(datetime.tzinfo)):
+			if datetime is not None:
+				= datetime.strftime(format)
+			else:
+				= noneFormat

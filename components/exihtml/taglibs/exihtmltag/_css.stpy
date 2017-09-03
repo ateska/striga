@@ -1,0 +1,26 @@
+from exihtmllib.cacheutil import CacheManager, CSSCacheEntry
+
+###
+
+class csslink(SingletonTag):
+
+	@classmethod
+	def Empty(cls, ctx, out, href, media=None):
+		<link rel="stylesheet" href=href type="text/css" media=media
+
+###
+
+#class cssstyle(PairTag):
+
+###
+
+class cssloader(SingletonTag):
+
+	@classmethod
+	def Empty(cls, ctx, out, files, cacheurl, media=None, minimize=True):
+		cachetag = hash(files) + (1 if minimize else 0)
+		centry = CacheManager.get(cachetag)
+		if centry is None:
+			centry = CSSCacheEntry(cachetag, files, cacheurl, minimize)
+
+		<link rel="stylesheet" href=centry.URL type="text/css" media=media

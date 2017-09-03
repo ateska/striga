@@ -1,0 +1,11 @@
+
+class Label(SingletonTag):
+
+	@classmethod
+	def Empty(cls, ctx, out, attr, postfix = ':&nbsp;'):
+		formd = ctx.Stack.front('exiforms.formd')
+
+		<label:
+			= formd.GetAttributeDescriptor(attr).Label
+			=|~| postfix
+

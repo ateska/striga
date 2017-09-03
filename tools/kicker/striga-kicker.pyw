@@ -1,0 +1,3 @@
+import strigakickerlib
+
+strigakickerlib.Run()

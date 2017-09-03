@@ -1,0 +1,25 @@
+import random
+
+TestValues = ['Black cookie','Red cookie','Yellow cookie']
+
+@StrigaViewEntry
+def main(ctx, out):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+	<html:
+		<head:
+			<title:
+				="Test cookies"
+		<body:
+			if ctx.req.CookieJar.has_key('test-cookie1'):
+				='Found cookie1: ',ctx.req.CookieJar['test-cookie1'].value
+			<br
+
+			if ctx.req.CookieJar.has_key('test-cookie2'):
+				='Found cookie2: ',ctx.req.CookieJar['test-cookie2'].value
+			<br
+
+			ctx.res.CookieJar.Add('test-cookie1', random.choice(TestValues), path='/testcookies', maxage=10)
+			ctx.res.CookieJar['test-cookie2'] = random.choice(TestValues)
+
+			<br
+			= 'Please refresh ...'

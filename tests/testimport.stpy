@@ -1,0 +1,30 @@
+tagimport testimportlib
+tagimport testimportlib2
+tagimport testimportlib2.testimportlib2iner
+#tagimport forms
+
+@StrigaViewEntry
+def main(ctx, out):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+	<html:
+		<head:
+			<title:="Test page"
+		<body:
+			="Import test!"
+			<br
+			<a href="http://www.cyberspace.cz/":='Link to Cyberspace'
+			<br
+			<testimportlib.TestTag
+			<br
+			<testimportlib.TestTag:
+				='--- '
+			<br
+
+			<testimportlib2.testimportlib2iner.TestTag2
+
+			<br
+
+			<testimportlib2.TestTag2
+
+			<div: = 'Globals: ', dir(globals)
+			<div: = 'Locals: ', dir(locals)

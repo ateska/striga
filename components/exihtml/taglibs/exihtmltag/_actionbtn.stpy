@@ -1,0 +1,47 @@
+def _BuildActionString(action, value):
+		if value is None:
+			return "!" + action
+		else:
+			return "!" + action + ":" + value
+
+###
+
+class actionbtn(SingletonTag):
+	'''
+Used in connection with action driven controller.
+	'''
+
+	#TODO: Rename this to 'actionsubmit'
+
+	@classmethod
+	def Empty(cls, ctx, out, action, label, value=None, **kwargs):
+		<input type="submit", name=_BuildActionString(action, value), value=label, **kwargs
+
+###
+
+
+class actionimg(SingletonTag):
+	'''
+Used in connection with action driven controller.
+	'''
+
+	@classmethod
+	def Empty(cls, ctx, out, action, label, src, value=None, **kwargs):
+		<input type="image", name=_BuildActionString(action, value), value=label, src=src, **kwargs
+
+###
+
+class actionbtn2(PairTag):
+	'''
+Used in connection with action driven controller.
+	'''
+
+	#TODO: Rename this to 'actionbutton'
+
+	@classmethod
+	def Start(cls, ctx, out, action, value=None, **kwargs):
+		<button.Start(type="submit", name=_BuildActionString(action, value), **kwargs)
+
+	@classmethod
+	def End(cls, ctx, out):
+		<button.End()

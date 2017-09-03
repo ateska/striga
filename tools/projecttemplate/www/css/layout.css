@@ -1,0 +1,96 @@
+body
+{
+	margin: 1em 1em 1em 1em;
+	padding: 0px;
+	font-family: "Verdana CE", "Arial CE", "Geneva CE", Verdana, Arial, sans-serif;
+
+}
+
+#leftcontent
+{
+	position: absolute;
+	left: 10px;
+	top: 5em;
+	width: 38%;
+	text-align: left;
+}
+
+#leftcontent *
+{
+	margin: 0 auto 0 0;
+}
+
+#centercontent
+{
+	position: absolute;
+	left: 40%;
+	top: 5em;
+	width: 20%;
+	text-align: center;
+}
+
+#centercontent *
+{
+	margin: 0 auto 0 auto;
+}
+
+#rightcontent
+{
+	position: absolute;
+	right: 10px;
+	top: 5em;
+	width: 38%;
+	text-align: right;
+}
+
+#rightcontent *
+{
+	margin: 0 0 0 auto;
+}
+
+#banner
+{
+	text-align: center;
+}
+
+.datagrid
+{
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid black;
+	font-size: small;
+}
+
+.datagrid caption
+{
+	width: 100%;
+	text-align: center;
+	color: white;
+	font-weight: bold;
+	padding: 1px;
+}
+
+.datagrid#revenue caption
+{
+	background-color: green;
+}
+
+.datagrid#cost caption
+{
+	background-color: red;
+}
+
+.datagrid th
+{
+	background-color: gray;
+	text-align: center;
+	color: white;
+	font-weight: bold;
+	border: 1px solid black;
+}
+
+.datagrid td
+{
+	border: 1px solid black;
+	text-align: center;
+}

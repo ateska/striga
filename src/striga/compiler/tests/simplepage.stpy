@@ -1,0 +1,97 @@
+#TODO: !mode html
+#TODO: encoding
+
+tagimport forms
+
+###
+
+@strigadef
+def test1(ctx, out):
+	<page:
+		="Hello world!"
+
+###
+
+#class Page(PairTag):
+#
+#
+#	@tagmethod
+#	def Start(cls, ctx, out):
+#		pass
+#
+#
+#	@tagmethod
+#	def End(cls, ctx, out):
+#		pass
+
+###
+
+@strigadef
+def main(ctx, out):
+	title = "CyberSpace .cz"
+	<html.html:
+		<head:
+			<title: =title
+
+			<meta content="text/html; charset=utf-8" http_equiv="Content-Type"
+
+			<link \
+				rel="stylesheet" \
+				type="text/css" \
+				href="http://tachyon.cyberspace.cz/skin/default/public.css" \
+				;
+
+			<link rel="shortcut icon", href="http://tachyon.cyberspace.cz/favicon.ico"
+			<script src="http://tachyon.cyberspace.cz/skin/default/public.js", type="text/javascript"
+
+		<body onload="javascript:dofocus('password');":
+			<a href="http://www.eff.org/br/":
+				<img src="http://tachyon.cyberspace.cz/gfx/free_speech_online.png", align="right", border="0", vspace="8", hspace="15", hspace="8", alt="free speech online"
+			<h1:
+				<a href="http://www.cyberspace.cz": ="CyberSpace .cz"
+
+			<div class_="define":
+				<i:
+					="define: ", 'Cyberspace'
+					<br;<br
+					="Term originated by author William Gibson in his novel Neuromancer the word Cyberspace is currently used to describe the whole range of information resources available through computer networks."
+			<html.br
+			&nbsp;
+
+			<table cellspacing="4" cellpadding="4" border="0" class_="forms":
+				<tr valign="top":
+					<td:
+						<forms.form action="http://www.cyberspace.cz/login.php?1200444253" method="post":
+							<b: ="ID"
+							&nbsp;
+							<input type="text" name="username" id="username" size="16" value="alex" class_="uppercase" onfocus="javascript:disabledofocus();"
+							=|r| "&nbsp;", "&nbsp;"
+							<b: ="PWD"
+							=|r| "&nbsp;"
+							<input type="password" name="password" id="password" size="16" onfocus="javascript:disabledofocus();"
+							=|r| "&nbsp;", "&nbsp;"
+							<input type="submit" value="vstoupit"
+							=|r| "&nbsp;"
+							<input type="checkbox" name="invisible" id="invisible" value="1"
+							<label for_="invisible": ="Invisible?"
+
+			<br
+
+			<div class_="registrationlink":
+				="Need an account?"
+				<a href="http://www.cyberspace.cz/index.php?atmpl=pub.index.registration":
+					="Registration area is this way ..."
+
+			<br;<br
+
+			<center:
+				="Connected by"; =|r|"&nbsp;"
+				<a href="http://www.gtsnovera.cz/" target="_blank":
+					<img src="./gfx/novera.png" alt="gts novera" border="0"
+
+			<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"
+			<script type="text/javascript":
+				=|s|'''
+				_uacct = "UA-1491989-1";
+				urchinTracker();
+				'''

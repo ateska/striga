@@ -1,0 +1,43 @@
+from exihtmllib import BrowserDetect
+
+###
+
+class svgobj(SingletonTag):
+
+	@classmethod
+	def Empty(cls, ctx, out, url, width, height):
+		=|~|'<!--[if IE]>'
+		<embed src=url width=width height=height
+		=|~|'<![endif]-->'
+
+		<object data=url type="image/svg+xml" width=width height=height class="svg":
+			<a href=url:
+				= 'Open in external browser'
+
+		#TODO: Include as <img support ... http://caniuse.com/svg-img
+
+###
+
+class svgimgex(SingletonTag):
+
+	'''
+	Inteligent class for displaying SVG the same way as images (size is not provided) - it should work cross-browser way.
+	'''
+
+	@classmethod
+	def Empty(cls, ctx, out, url, id=None, browserdetect = None):
+		
+		if browserdetect is None:
+			browserdetect = BrowserDetect(ctx)
+
+		if id is None:
+			id = "svg{0}".format(ctx.UniqueNumberGenerator.next())
+
+		if browserdetect.Browser in ('safari','chrome'):
+			<img id=id src=url
+
+		elif browserdetect.Browser in ('firefox'):
+			<embed id=id src=url
+
+		else:
+			<object id=id data=url type="image/svg+xml"

@@ -1,0 +1,15 @@
+
+@StrigaViewEntry
+def main(ctx, out:
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+	<html:
+
+		<head:
+			<title:	="<Title>"
+			<link rel="shortcut icon" href="/favicon.ico"
+			<link rel="stylesheet" href="/css/layout.css" type="text/css"
+			<script src="/jvs/jquery.js" type="text/javascript": =''
+
+		<body:
+
+			="Hello world!"

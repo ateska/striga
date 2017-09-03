@@ -1,0 +1,11 @@
+@StrigaViewEntry
+def main(ctx, out):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+	<html xmlns="http://www.w3.org/1999/xhtml":
+		<head:
+			<title:="Test output"
+		<body:
+			<p: = 'Default filter test'
+			<p: = |~| 'Raw test'
+			<p: = |h| 'Html test test'
+			<p: = 'Test ', 'parts', |~| '&nbsp;',  |h| '...'

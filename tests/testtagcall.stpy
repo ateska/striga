@@ -1,0 +1,25 @@
+class Page(PairTag):
+
+	@classmethod
+	def Start(cls, ctx, out):
+		=|~| StrigaFileInfo.BuildMode.DocumentHeader
+		<html.Start()
+		<head:
+			<title:
+				="Test page"
+		<body.Start()
+
+	@classmethod
+	def End(cls, ctx, out):
+		<body.End()
+		<html.End()
+
+######################################################################################
+
+@StrigaViewEntry
+def main(ctx, out):
+	<Page:
+		="Hello world from active tag Page test!"
+		<br
+		<a href="http://www.cyberspace.cz/":='Link to Cyberspace'
+		<br

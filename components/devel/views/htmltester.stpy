@@ -1,0 +1,55 @@
+@StrigaViewEntry
+def main(ctx, out):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+	<html:
+		<head:
+			<title:="Striga Tester"
+			<style type="text/css": = '''
+html, body {
+	margin:0;
+	padding:0;
+	height:100%;
+	border:none;
+ }
+
+div.entry {
+	margin:0;
+	padding: 0;
+	height:50%;
+	border:none;
+}
+
+div.entry form {
+	margin:0;
+	padding:0;
+	border:none;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+ }
+
+div.entry textarea {
+	border:none;
+	background-color: yellow;
+	height: 100%;
+	width: 100%;
+}
+
+div.spacer {
+	margin: 0;
+	padding: 5px;
+}
+
+'''
+		<body:
+
+			<div class="entry":
+				<form action="." method="post":
+					<textarea id="entry-content" name="content": =''
+
+			<div id="result-div" class="result":
+				= ''
+
+			<script type="text/javascript" :=|~|'''
+setInterval("document.getElementById('result-div').innerHTML = document.getElementById('entry-content').value;",1000);
+			'''

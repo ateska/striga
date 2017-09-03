@@ -1,0 +1,24 @@
+tagimport testtaglib, testtaglib1 as tl1, testtaglib2, testtaglib2.subtest
+
+@strigadef
+def main(ctx, out):
+	=|r| '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">'
+	<html:
+		<head:
+			<title:
+				="Test page"
+		<body:
+			="Hello world!"
+			<br
+			<a href="http://www.cyberspace.cz/":='Link to Cyberspace'
+			<br
+
+			txt="Hello"
+			<testtaglib.test text=txt:
+				=|r|'&nbsp;'
+				<testtaglib.test text="world !"
+				<br
+
+			for i in range(10):
+				=i
+				<br

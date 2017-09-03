@@ -1,0 +1,16 @@
+
+@StrigaViewEntry
+def main(ctx, out, ControllerGreeting):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+
+	<html:
+		<head:
+			<title:="MVC Test page 2"
+		<body:
+			='Hi, this is view #2'
+			<p:
+				=ControllerGreeting
+
+			<p:
+				<a href="?view=1":
+					='Switch to view #1'

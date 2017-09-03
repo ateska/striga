@@ -1,0 +1,23 @@
+
+@StrigaViewEntry
+def main(ctx, out):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+
+	<html:
+		<head:
+			<title:="Error Test Page"
+		<body:
+
+			if ctx.req.Vars.GET.has_key('error'):
+				error = ctx.req.Vars.GET['error']
+				if error == '404':
+					raise striga.core.exception.StrigaBusError('NotFound')
+
+			='Select error:'
+			<form action="/testerrors" method="GET":
+				<select name="error":
+					<option value="404": ='404 - Not found'
+					<option value="500": ='500 - Internal server error'
+
+				<br
+				<input type="submit"

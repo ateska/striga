@@ -1,0 +1,6 @@
+tagimport _svg
+
+###
+
+embedsvg = _svg.svgobj
+svgimgex = _svg.svgimgex

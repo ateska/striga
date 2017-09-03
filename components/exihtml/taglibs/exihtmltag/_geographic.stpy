@@ -1,0 +1,38 @@
+tagimport _charents
+import math
+
+class geolocation(SingletonTag):
+	'''
+Span-type active tag to display geographical location.
+	'''
+
+	@staticmethod
+	def _DMSFormat(val, neg, pos):
+		fract, integ = math.modf(abs(val))
+		fract,minutes = math.modf(fract * 60.0)
+		seconds = fract * 60.0
+
+		return '''%d°%d'%0.2f"%s''' % (int(integ),int(minutes),seconds,pos if float(val) >= 0.0 else neg)
+
+	@classmethod
+	def Empty(cls, ctx, out, latitude, longitude, class_ = 'exi-geolocation', noneFormat = _charents.mdash.ent):
+		<span class=class_:
+			if (latitude is None) and (longitude is None):
+				=|~| noneFormat
+
+			else:
+				#geo microformat - http://en.wikipedia.org/wiki/Geo_(microformat)
+				<abbr class="geo" title="%s;%s"%(str(latitude),str(longitude)):
+					<span title="Latitude":
+						if latitude is None:
+							=|~| noneFormat
+						else:
+							=cls._DMSFormat(latitude, 'S', 'N')
+
+					=|~|'&nbsp;'
+
+					<span class="longitude" title="Longitude":
+						if longitude is None:
+							=|~| noneFormat
+						else:
+							=cls._DMSFormat(longitude, 'W', 'E')

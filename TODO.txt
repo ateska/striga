@@ -1,0 +1,51 @@
+* FIXME - Rollover in logging file handler is not thread-safe (causing hangs and/or empty log files)
+
+* FIXME - SIGTERM (and maybe other signals) should cause nice shutdown 
+
+* site.conf in striga has different format than site.conf in ramona (maybe striga can detect 'new' format by searching for [general] on first line of site.conf)
+
+* Finalize and test tools/projecttemplate
+
+* **kwargs option for static tags (or any other way how to supply optional parameters for tags)
+
+* CONDITIONAL attributes -> <option(selected="selected" if item.selected == True)
+
+* namespace for attributes - something like <A HREF="..." NS('exiNS', ATTR1='this is namespace attribute', ATTR2='this is another one')
+
+* Workers/subprocesses must implement keep-alive notification (and non-responding workers should be killed)
+	- implement heartbeating (regular periodic message) + long-operation notification (explicit notification of long operation that can prevent heartbeat) from worker/subprocess
+
+* tagimport exihtml.form (<exihtml.form.form) should work !!! - problem is in tagimport of submodules
+
+* Implement sections to tags (allowing us to implement complex tags like <HTML> with inheritent <HEAD> and <BODY> sections)
+
+* Review striga extrenals - enum and spark
+
+* HTTP context extension with 'common fields' - filled from CGI Environments for example (this should help to resolve issues like request URL resolution)
+
+* implement better reloading support - we have problems with tagimport now (cascasing imports are not working due to conflict in sys.modules)
+! Own version of import !
+http://code.activestate.com/recipes/576508/
+
+* ExHTML component 'auto-refresh'
+- button that trigger automated refreshing of current page
+- there can be USER option to on/off/change interval of refresh
+- there cen be also DEVELOPER option 'delayed refresh' (every next automated refresh will happen with increased period - potentionaly leading to logout by timeout)
+- Page must contain 'extended' environment with 'URL for refresh'
+
+* class and id parameter of active tag (check exihtml implementation and enhance)
+
+* form action attribute (it is problematic to specify target of form)
+
+* Automated forms !!!
+
+* improve/rework striga compiler (stand-alone FAST program)
+
+* HTTP frontend (build-in www server)
+
+* Redesign service model
+	- service factory as function registered to global service factory registry
+	- service classes (service, serviceWithStates) - some services are not 'stopable', some yes
+	- service must be configured when constructed (not later)
+
+* Test if active (only active) tags should not be instantitied on begin() - for passing params to end()

@@ -1,0 +1,28 @@
+
+class EditBox(SingletonTag):
+
+	@classmethod
+	def Empty(cls, ctx, out, attr, postfix = ':&nbsp;'):
+		formd = ctx.Stack.front('exiforms.formd')
+		attrdescr = formd.GetAttributeDescriptor(attr)
+
+		if (formd.ViewMode == 'show') or (attrdescr.ReadOnly):
+			=getattr(formd.Items, attr)
+		else:
+			value = getattr(formd.Items, attr)
+			<input type="text" name=attr value=(value if value is not None else '') style=';'.join([('%s:%s' % v) for v in attrdescr.CSS.iteritems()])
+
+
+class TextArea(SingletonTag):
+
+	@classmethod
+	def Empty(cls, ctx, out, attr, postfix = ':&nbsp;'):
+		formd = ctx.Stack.front('exiforms.formd')
+		attrdescr = formd.GetAttributeDescriptor(attr)
+
+		if (formd.ViewMode == 'show') or (attrdescr.ReadOnly):
+			=getattr(formd.Items, attr)
+		else:
+			value = getattr(formd.Items, attr)
+			<textarea type="text" name=attr  style=';'.join([('%s:%s' % v) for v in attrdescr.CSS.iteritems()]):
+				=(value if value is not None else '')

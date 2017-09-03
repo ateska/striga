@@ -1,0 +1,27 @@
+import os, lipsum
+
+###
+
+_lipsumRootPath = os.path.dirname(lipsum.__file__)
+_lipsumGenerator = lipsum.generator(os.path.join(_lipsumRootPath,'sample.txt'), os.path.join(_lipsumRootPath,'dictionary.txt'))
+
+###
+
+class Paragraph(object):
+
+
+	@classmethod
+	def Empty(cls, ctx, out, count = 1):
+		for i in range(count):
+			<p:
+				= _lipsumGenerator.generate_paragraph(i==0)
+
+###
+
+class Sentence(object):
+
+
+	@classmethod
+	def Empty(cls, ctx, out, count = 1):
+		for i in range(count):
+			<p: = _lipsumGenerator.generate_sentence(i==0)

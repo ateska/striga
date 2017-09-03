@@ -1,0 +1,16 @@
+import sys, traceback
+
+@StrigaViewEntry
+def main(ctx, out):
+	ctx.res.Status = 500
+
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+	<html:
+		<head:
+			<title:="500 Internal Server Error"
+		<body:
+			<h1:='Internal Server Error'
+			for line in traceback.format_exception(*sys.exc_info()):
+				= line
+				<br
+

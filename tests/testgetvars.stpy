@@ -1,0 +1,25 @@
+
+@StrigaViewEntry
+def main(ctx, out):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+
+	<html:
+		<head:
+			<title:="Test page"
+		<body:
+			=ctx.req.Vars.GET
+			<br
+			if ctx.req.Vars.GET.has_key('teststringarr'):
+				=ctx.req.Vars.GET['teststringarr']
+				<br
+				=ctx.req.Vars.GET.GetAll('teststringarr')
+			<br
+
+			<form action="/testgetvars" method="GET":
+				<input type="text" name="teststring"
+				<br
+				<input type="text" name="teststringarr"
+				<br
+				<input type="text" name="teststringarr"
+				<br
+				<input type="submit"

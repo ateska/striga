@@ -1,0 +1,46 @@
+from exihtmllib.cacheutil import CacheManager, JSCacheEntry
+
+###
+
+class javascript(PairTag):
+
+	#TODO: rename to jvslink / jslink
+	#TODO: defer parameter & others ... http://www.w3.org/TR/html4/interact/scripts.html#edef-SCRIPT
+	#TODO: data-path parameter (optional)
+
+	@classmethod
+	def Start(cls, ctx, out, src=None, include=None):
+
+		if src is not None:
+			<script.Start(type="text/javascript", src=src)
+			CDATA = False
+		else:
+			<script.Start(type="text/javascript")
+			=|~|'// <![CDATA[\n'
+			CDATA = True
+
+			if include is not None:
+				=|~|file(include, 'r').read()
+
+		ctx.Stack.push('exihtmltag.javascript', CDATA)
+
+
+	@classmethod
+	def End(cls, ctx, out):
+		CDATA = ctx.Stack.pop('exihtmltag.javascript')
+		if CDATA:
+			=|~|'\n// ]]>'
+		<script.End()
+
+###
+
+class jsloader(SingletonTag):
+
+	@classmethod
+	def Empty(cls, ctx, out, files, cacheurl, minimize=True):
+		cachetag = hash(files) + (1 if minimize else 0)
+		centry = CacheManager.get(cachetag)
+		if centry is None:
+			centry = JSCacheEntry(cachetag, files, cacheurl, minimize)
+
+		<script src=centry.URL type="text/javascript" :=''

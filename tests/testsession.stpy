@@ -1,0 +1,17 @@
+import random
+
+@StrigaViewEntry
+def main(ctx, out):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+	<html:
+		<head:
+			<title:
+				="Test session"
+		<body:
+			if ctx.req.CookieJar.has_key('test-session1'):
+				='Session: ',ctx.req.CookieJar['test-session1'].value
+			else:
+				ctx.res.CookieJar.Add('test-session1', ''.join([chr(random.randrange(ord('A'),ord('Z'))) for x in range(20)]), path='/testsession', maxage=3600*48)
+				='NEW Session: ',ctx.res.CookieJar['test-session1'].value
+			<br
+			= 'Please refresh ...'

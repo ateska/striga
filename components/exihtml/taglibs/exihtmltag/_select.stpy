@@ -1,0 +1,169 @@
+
+class __selectlistbase(SingletonTag):
+
+
+	@classmethod
+	def _ProcessItems(cls, ctx, out, items, value):
+			for vpack in items:
+
+				if isinstance(vpack, tuple):
+					vpacklen = len(vpack)
+					
+					if vpacklen == 2:
+						optval, optlbl = vpack
+						cls._OptionOrGroup(ctx, out, optlbl, optval, value)
+
+					elif vpacklen == 3:
+						optval, optlbl, optdict = vpack
+						cls._OptionOrGroup(ctx, out, optlbl, optval, value, **optdict)
+
+					else:
+						raise RuntimeError("Invalid item '%s' for select active tag" % str(vpack))
+
+				else:
+					cls._OptionOrGroup(ctx, out, vpack, vpack, value)
+###
+
+class selectlist(__selectlistbase):
+	'''	
+HTML select/option wrapper - Select list (drop-down list).
+
+1) value -> <option value=>value</option>
+
+2) tuple(value, label) -> <option value=value>label</option>
+3) tuple(value, label, option-dictionary) -> <option value=value **option-dictionary>label</option>
+
+Note: Value is first as it more corresponds with dict(...).iteritems()
+'''
+
+	@classmethod
+	def Empty(cls, ctx, out, items, value=None, **kwargs):
+		<select **kwargs:
+			cls._ProcessItems(ctx, out, items, value=value)
+
+
+	@classmethod
+	def _OptionOrGroup(cls, ctx, out, optlbl, optval, selval, **optdict):
+		if optval==selval:
+			<option value=optval, selected="selected", **optdict: =optlbl
+		else:
+			<option value=optval, **optdict: =optlbl
+
+#
+
+class mselectlist(__selectlistbase):
+	'''	
+HTML multi-select/option wrapper - Select list with multiple option.
+
+Items array formats are equivalent to selectlist.
+'''
+
+	@classmethod
+	def Empty(cls, ctx, out, items, values=(), **kwargs):
+		<select multiple='multiple', **kwargs:
+			cls._ProcessItems(ctx, out, items, value=values)
+
+
+	@classmethod
+	def _OptionOrGroup(cls, ctx, out, optlbl, optval, selval, **optdict):
+		if optval in selval:
+			<option value=optval, selected="selected", **optdict: =optlbl
+		else:
+			<option value=optval, **optdict: =optlbl
+
+#
+
+class selectlistwg(selectlist):
+	'''	
+HTML select/option/optgroup wrapper - Select list (drop-down list) with group support).
+
+Extend selectlist active tags with following options:
+
+4) tuple(iterable, label) -> <optgroup label=label>iterable</optgroup>
+5) tuple(iterable, label, option-dictionary) -> <optgroup label=label **option-dictionary>iterable</optgroup>
+
+'''
+
+	@classmethod
+	def _OptionOrGroup(cls, ctx, out, optlbl, optval, selval, **optdict):
+		if hasattr(optval, '__iter__'):
+			<optgroup label=optlbl, **optdict:
+				cls._ProcessItems(ctx, out, optval, selval)
+		else:
+			selectlist._OptionOrGroup(ctx, out, optlbl, optval, selval, **optdict)
+
+
+##### OBSOLETED old implementation follows ... ##### 
+	
+class select(SingletonTag):
+#TODO: Remove this implementation and replace that with selectlist
+	'''
+HTML select/option wrapper.
+OBSOLETED by selectlist
+
+Active tag <select takes argument items - which is list (or generator) of items to be displayed.
+It also consumes arbitrary **kwags that will be directly translated into attributes of <select> tag.
+
+Items are processed in for-cycle one-by-one.
+Item structure can be:
+
+1) label -> <option>label</option>
+
+2) tuple(label,value) -> <option value=value>label</option>
+3) tuple(label,value,option-dictionary) -> <option value=value **option-dictionary>label</option>
+
+4) optgroup(label,iterable) -> <optgroup label=label>iterable</optgroup>
+5) optgroup(label,option-dictionary,iterable) -> <optgroup label=label **option-dictionary>iterable</optgroup>
+
+Supplied list can be generator - this is useful for default selection evaluation 
+
+	'''
+
+	@classmethod
+	def Empty(cls, ctx, out, items, **kwargs):
+		<select **kwargs:
+			cls.__ProcessItems(ctx, out, items)
+
+
+	@classmethod
+	def __ProcessItems(cls, ctx, out, items):
+			for vpack in items:
+
+				if isinstance(vpack, tuple):
+					vpacklen = len(vpack)
+					
+					if vpacklen == 2:
+						label, value = vpack
+						<option value=value: =label
+
+					elif vpacklen == 3:
+						label, value, optdict = vpack
+						<option value=value, **optdict: =label
+
+					else:
+						raise RuntimeError("Invalid item '%s' for select active tag" % str(vpack))
+
+				elif isinstance(vpack, optgroup):
+					if vpack.OptDict is None:
+						<optgroup label=vpack.Label:
+							cls.__ProcessItems(ctx,out,vpack.Iter)
+					else:
+						<optgroup label=vpack.Label, **vpack.OptDict:
+							cls.__ProcessItems(ctx,out,vpack.Iter)
+
+				else:
+					<option: =vpack
+	
+#
+
+class optgroup(object):
+
+	def __init__(self, label, secondarg, thirdarg = None):
+		self.Label = label
+		if thirdarg is None:
+			self.OptDict = None
+			self.Iter = secondarg
+		else:		
+			self.OptDict = secondarg
+			self.Iter = thirdarg
+			

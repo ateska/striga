@@ -1,0 +1,544 @@
+########################### PYTHON 2.5.1 GRAMAR
+
+file_input ::= file_contents
+
+stmt_input ::= statement ENDMARKER
+
+!array: file_contents
+file_contents ::= NEWLINE file_contents
+file_contents ::= statement file_contents
+file_contents ::= ENDMARKER
+
+atom ::= identifier
+atom ::= literal
+atom ::= enclosure
+atom ::= striga_entity
+
+identifier ::= NAME
+
+enclosure ::= parenth_form
+enclosure ::= list_display
+enclosure ::= generator_expression
+enclosure ::= dict_display
+enclosure ::= string_conversion
+
+literal ::= NUMBER
+literal ::= stringlist
+
+!array: stringlist
+stringlist ::= STRING stringlist
+stringlist ::= STRING
+
+parenth_form ::= ( )
+parenth_form ::= ( expression_list )
+
+test ::= or_test
+test ::= lambda_form
+
+!array: testlist
+testlist ::= test , testlist
+testlist ::= test ,
+testlist ::= test
+
+list_display ::= [ ]
+list_display ::= [ listmaker ]
+
+listmaker ::= expression list_for
+listmaker ::= listmakerlist
+
+!array: listmakerlist
+listmakerlist ::= expression
+listmakerlist ::= expression ,
+listmakerlist ::= expression , listmakerlist
+
+!pass: list_iter
+list_iter ::= list_for
+list_iter ::= list_if
+
+list_for ::= FOR expression_list IN testlist
+list_for ::= FOR expression_list IN testlist list_iter
+
+list_if ::= IF test
+list_if ::= IF test list_iter
+
+generator_expression ::= ( test genexpr_for )
+
+genexpr_for ::= FOR expression_list IN test
+genexpr_for ::= FOR expression_list IN test genexpr_iter
+
+!pass: genexpr_iter
+genexpr_iter ::= genexpr_for
+genexpr_iter ::= genexpr_if
+
+genexpr_if ::= IF test
+genexpr_if ::= IF test genexpr_iter
+
+dict_display ::= { key_datum_list }
+dict_display ::= { }
+
+!array: key_datum_list
+key_datum_list ::= key_datum
+key_datum_list ::= key_datum ,
+key_datum_list ::= key_datum , key_datum_list
+
+key_datum ::= expression : expression
+
+string_conversion ::= ` expression_list `
+
+!pass: primary
+primary ::= atom
+primary ::= attributeref
+primary ::= subscription
+primary ::= slicing
+primary ::= call
+
+attributeref ::= primary . identifier
+
+subscription ::= primary [ expression_list ]
+
+slicing ::= simple_slicing
+slicing ::= extended_slicing
+
+simple_slicing ::= primary [ short_slice ]
+
+extended_slicing ::= primary [ slice_list ]
+
+!array: slice_list
+slice_list ::= slice_item
+slice_list ::= slice_item ,
+slice_list ::= slice_item , slice_list
+
+slice_item ::= expression
+slice_item ::= proper_slice
+slice_item ::= ellipsis
+
+proper_slice ::= short_slice
+proper_slice ::= long_slice
+
+short_slice ::= lower_bound : upper_bound
+short_slice ::= : upper_bound
+short_slice ::= lower_bound :
+short_slice ::= :
+
+long_slice ::= short_slice : stride
+long_slice ::= short_slice :
+
+lower_bound ::= expression
+
+upper_bound ::= expression
+
+stride ::= expression
+
+ellipsis ::= . . .
+
+call ::= primary ( )
+call ::= primary ( argument_list )
+call ::= primary ( argument_list , )
+call ::= primary ( test genexpr_for )
+
+!array: argument_list
+argument_list ::= positional_arguments
+argument_list ::= positional_arguments , keyword_arguments
+argument_list ::= positional_arguments , keyword_arguments , * expression
+argument_list ::= positional_arguments , keyword_arguments , ** expression
+argument_list ::= positional_arguments , keyword_arguments , * expression , ** expression
+argument_list ::= positional_arguments , * expression
+argument_list ::= positional_arguments , ** expression
+argument_list ::= positional_arguments , * expression , ** expression
+argument_list ::= keyword_arguments
+argument_list ::= keyword_arguments , * expression
+argument_list ::= keyword_arguments , ** expression
+argument_list ::= keyword_arguments , * expression , ** expression
+argument_list ::= * expression , ** expression
+argument_list ::= * expression
+argument_list ::= ** expression
+
+!array: positional_arguments
+positional_arguments ::= expression , positional_arguments
+positional_arguments ::= expression
+
+!array: keyword_arguments
+keyword_arguments ::= keyword_item , keyword_arguments
+keyword_arguments ::= keyword_item
+
+keyword_item ::= identifier = expression
+
+!pass: power
+power ::= primary ** u_expr
+power ::= primary
+
+!pass: u_expr
+u_expr ::= - u_expr
+u_expr ::= + u_expr
+u_expr ::= ~ u_expr
+u_expr ::= power
+
+!pass: m_expr
+m_expr ::= m_expr * u_expr
+m_expr ::= m_expr // u_expr
+m_expr ::= m_expr / u_expr
+m_expr ::= m_expr % u_expr
+m_expr ::= u_expr
+
+!pass: a_expr
+a_expr ::= a_expr + m_expr
+a_expr ::= a_expr - m_expr
+a_expr ::= m_expr
+
+!pass: shift_expr
+shift_expr ::= shift_expr << a_expr
+shift_expr ::= shift_expr >> a_expr
+shift_expr ::= a_expr
+
+!pass: and_expr
+and_expr ::= and_expr & shift_expr
+and_expr ::= shift_expr
+
+!pass: xor_expr
+xor_expr ::= xor_expr ^ and_expr
+xor_expr ::= and_expr
+
+!pass: or_expr
+or_expr ::= or_expr | xor_expr
+or_expr ::= xor_expr
+
+!pass: comparison
+comparison ::= or_expr comparisonlist
+comparison ::= or_expr
+
+!array: comparisonlist
+comparisonlist ::= comp_operator or_expr comparisonlist
+comparisonlist ::= comp_operator or_expr
+
+!array: comp_operator
+comp_operator ::= <
+comp_operator ::= >
+comp_operator ::= ==
+comp_operator ::= >=
+comp_operator ::= <=
+comp_operator ::= <>
+comp_operator ::= !=
+comp_operator ::= IS
+comp_operator ::= IS NOT
+comp_operator ::= NOT IN
+comp_operator ::= IN
+
+expression ::= or_test
+expression ::= or_test IF or_test ELSE test
+expression ::=  lambda_form
+
+!pass: or_test
+or_test ::= or_test OR and_test
+or_test ::= and_test
+
+!pass: and_test
+and_test ::= and_test AND not_test
+and_test ::= not_test
+
+!pass: not_test
+not_test ::= NOT not_test
+not_test ::= comparison
+
+lambda_form ::= LAMBDA : expression
+lambda_form ::= LAMBDA parameter_list : expression
+
+!array: expression_list
+expression_list ::= expression , expression_list
+expression_list ::= expression ,
+expression_list ::= expression
+
+!pass: simple_stmt
+simple_stmt ::= expression_stmt
+simple_stmt ::= assert_stmt
+simple_stmt ::= assignment_stmt
+simple_stmt ::= augmented_assignment_stmt
+simple_stmt ::= pass_stmt
+simple_stmt ::= del_stmt
+simple_stmt ::= print_stmt
+simple_stmt ::= return_stmt
+simple_stmt ::= yield_stmt
+simple_stmt ::= raise_stmt
+simple_stmt ::= break_stmt
+simple_stmt ::= continue_stmt
+simple_stmt ::= import_stmt
+simple_stmt ::= global_stmt
+simple_stmt ::= exec_stmt
+simple_stmt ::= striga_output_stmt
+simple_stmt ::= striga_stag_stmt
+simple_stmt ::= striga_import_stmt
+simple_stmt ::= striga_tagcall_stmt
+
+expression_stmt ::= expression_list
+
+assert_stmt ::= ASSERT expression
+assert_stmt ::= ASSERT expression , expression
+
+assignment_stmt ::= asg_target_list expression_list
+assignment_stmt ::= asg_target_list expression_list
+
+!array: asg_target_list
+asg_target_list ::= asg_target_list target_list =
+asg_target_list ::= target_list =
+
+!array: target_list
+target_list ::= target , target_list
+target_list ::= target ,
+target_list ::= target
+
+target ::= identifier
+target ::= ( target_list )
+target ::= [ target_list ]
+target ::= attributeref
+target ::= subscription
+target ::= slicing
+
+augmented_assignment_stmt ::= target augop expression_list
+
+!pass: augop
+augop ::= +=
+augop ::= -=
+augop ::= *=
+augop ::= /=
+augop ::= %=
+augop ::= **=
+augop ::= >>=
+augop ::= <<=
+augop ::= &=
+augop ::= ^=
+augop ::= |=
+augop ::= //=
+
+pass_stmt ::= PASS
+
+del_stmt ::= DEL target_list
+
+print_stmt ::= PRINT
+print_stmt ::= PRINT print_stmt_exprlist
+print_stmt ::= PRINT >> expression
+print_stmt ::= PRINT >> expression , print_stmt_exprlist
+
+!array: print_stmt_exprlist
+print_stmt_exprlist ::= expression , print_stmt_exprlist
+print_stmt_exprlist ::= expression ,
+print_stmt_exprlist ::= expression
+
+return_stmt ::= RETURN expression_list
+return_stmt ::= RETURN
+
+yield_stmt ::= YIELD expression_list
+
+raise_stmt ::= RAISE
+raise_stmt ::= RAISE expression
+raise_stmt ::= RAISE expression , expression
+raise_stmt ::= RAISE expression , expression , expression
+
+break_stmt ::= BREAK
+
+continue_stmt ::= CONTINUE
+
+import_stmt ::= IMPORT import_module_list
+import_stmt ::= FROM from_module IMPORT from_module_list
+import_stmt ::= FROM from_module IMPORT ( from_module_list )
+import_stmt ::= FROM from_module IMPORT ( from_module_list , )
+import_stmt ::= FROM from_module IMPORT *
+
+!array: import_module_list
+import_module_list ::= import_module_sym , import_module_list
+import_module_list ::= import_module_sym
+
+import_module_sym ::= module
+import_module_sym ::= module AS NAME
+
+!array: from_module_list
+from_module_list ::= from_module_sym , from_module_list
+from_module_list ::= from_module_sym
+
+from_module_sym ::= identifier
+from_module_sym ::= identifier AS NAME
+
+from_module ::= one_or_more_dots module
+from_module ::= one_or_more_dots
+from_module ::= module
+
+!array: one_or_more_dots
+one_or_more_dots ::= . one_or_more_dots
+one_or_more_dots ::= .
+
+module ::= module . identifier
+module ::= identifier
+
+global_stmt ::= GLOBAL global_idlist
+
+!array: global_idlist
+global_idlist ::= identifier , global_idlist
+global_idlist ::= identifier
+
+exec_stmt ::= EXEC expression
+exec_stmt ::= EXEC expression IN expression
+exec_stmt ::= EXEC expression IN expression , expression
+
+!pass: compound_stmt
+compound_stmt ::= if_stmt
+compound_stmt ::= while_stmt
+compound_stmt ::= for_stmt
+compound_stmt ::= try_stmt
+compound_stmt ::= with_stmt
+compound_stmt ::= funcdef
+compound_stmt ::= classdef
+compound_stmt ::= striga_ptag_stmt
+
+suite ::= stmt_list NEWLINE
+suite ::= NEWLINE INDENT suite_stmtlist DEDENT
+
+!array: suite_stmtlist
+suite_stmtlist ::= statement suite_stmtlist
+suite_stmtlist ::= statement
+
+!array: statement
+statement ::= stmt_list NEWLINE
+statement ::= compound_stmt
+
+!array: stmt_list
+stmt_list ::= simple_stmt ; stmt_list
+stmt_list ::= simple_stmt ;
+stmt_list ::= simple_stmt
+
+if_stmt ::= IF expression : suite elif_stmtlist
+if_stmt ::= IF expression : suite elif_stmtlist ELSE : suite
+
+elif_stmtlist ::= elif_stmt elif_stmtlist
+elif_stmtlist ::=
+
+elif_stmt ::= ELIF expression : suite
+
+while_stmt ::= WHILE expression : suite
+while_stmt ::= WHILE expression : suite ELSE : suite
+
+for_stmt ::= FOR target_list IN expression_list : suite
+for_stmt ::= FOR target_list IN expression_list : suite ELSE : suite
+
+try_stmt ::= TRY : suite except_list
+try_stmt ::= TRY : suite except_list ELSE : suite
+try_stmt ::= TRY : suite except_list FINALLY : suite
+try_stmt ::= TRY : suite except_list ELSE : suite FINALLY : suite
+try_stmt ::= TRY : suite FINALLY : suite
+
+!array: except_list
+except_list ::= except_stmt except_list
+except_list ::= except_stmt
+
+except_stmt ::= EXCEPT : suite
+except_stmt ::= EXCEPT expression : suite
+except_stmt ::= EXCEPT expression , target : suite
+
+with_stmt ::= WITH expression : suite
+with_stmt ::= WITH expression AS target : suite
+
+funcdef ::= DEF funcname ( parameter_list ) : suite
+funcdef ::= DEF funcname ( ) : suite
+funcdef ::= decorators DEF funcname ( parameter_list ) : suite
+funcdef ::= decorators DEF funcname ( ) : suite
+
+!array: decorators
+decorators ::= decorator decorators
+decorators ::= decorator
+
+decorator ::= @ dotted_name NEWLINE
+decorator ::= @ dotted_name ( ) NEWLINE
+decorator ::= @ dotted_name ( argument_list ) NEWLINE
+decorator ::= @ dotted_name ( argument_list , ) NEWLINE
+
+dotted_name ::= identifier . dotted_name
+dotted_name ::= identifier
+
+!array: parameter_list
+parameter_list ::= defparameterlist
+parameter_list ::= defparameterlist , * identifier
+parameter_list ::= defparameterlist , ** identifier
+parameter_list ::= defparameterlist , * identifier , ** identifier
+parameter_list ::= * identifier
+parameter_list ::= ** identifier
+parameter_list ::= * identifier , ** identifier
+
+!array: defparameterlist
+defparameterlist ::= defparameter , defparameterlist
+defparameterlist ::= defparameter ,
+defparameterlist ::= defparameter
+
+defparameter ::= parameter
+defparameter ::= parameter = expression
+
+!array: sublist
+sublist ::= parameter , sublist
+sublist ::= parameter ,
+sublist ::= parameter
+
+parameter ::= identifier
+parameter ::= ( sublist )
+
+funcname ::= identifier
+
+classdef ::= CLASS classname : suite
+classdef ::= CLASS classname inheritance : suite
+
+inheritance ::= ( expression_list )
+inheritance ::= ( )
+
+classname ::= identifier
+
+########################### STRIGA GRAMAR
+
+striga_import_stmt ::= TAGIMPORT import_module_list
+striga_import_stmt ::= FROM from_module TAGIMPORT from_module_list
+striga_import_stmt ::= FROM from_module TAGIMPORT ( from_module_list )
+striga_import_stmt ::= FROM from_module TAGIMPORT ( from_module_list , )
+striga_import_stmt ::= FROM from_module TAGIMPORT *
+
+striga_output_stmt ::= = striga_output_list
+
+!array: striga_output_list
+striga_output_list ::= striga_output_flag expression , striga_output_list
+striga_output_list ::= striga_output_flag expression ,
+striga_output_list ::= striga_output_flag expression
+
+striga_output_flag ::=
+striga_output_flag ::= | identifier |
+striga_output_flag ::= | ~ |
+
+striga_stag_stmt ::= < striga_tag_name
+striga_stag_stmt ::= < striga_tag_name striga_tagparam_list
+
+striga_ptag_stmt ::= < striga_tag_name : suite
+striga_ptag_stmt ::= < striga_tag_name striga_tagparam_list : suite
+
+striga_tagcall_stmt ::= < striga_tag_name . identifier ( )
+striga_tagcall_stmt ::= < striga_tag_name . identifier ( striga_tagparam_list )
+
+!pass: striga_tag_name
+striga_tag_name ::= identifier
+striga_tag_name ::= attributeref
+
+!array: striga_tagparam_list
+striga_tagparam_list ::= striga_tagdefparameter_list
+striga_tagparam_list ::= striga_tagdefparameter_list , * expression
+striga_tagparam_list ::= striga_tagdefparameter_list , ** expression
+striga_tagparam_list ::= striga_tagdefparameter_list , * expression , ** expression
+striga_tagparam_list ::= * expression
+striga_tagparam_list ::= ** expression
+striga_tagparam_list ::= * expression , ** expression
+
+!array: striga_tagdefparameter_list
+striga_tagdefparameter_list ::= striga_tagdefparameter striga_tagparam_sep striga_tagdefparameter_list
+striga_tagdefparameter_list ::= striga_tagdefparameter striga_tagparam_sep
+
+striga_tagparam_sep ::= ,
+striga_tagparam_sep ::=
+
+!pass: striga_tagdefparameter
+striga_tagdefparameter ::= parameter = expression
+#Here is where two worlds colide
+striga_tagdefparameter ::= CLASS = expression
+striga_tagdefparameter ::= FOR = expression
+striga_tagdefparameter ::= STRING = expression
+
+striga_entity ::= & identifier

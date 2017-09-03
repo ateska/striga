@@ -1,0 +1,10 @@
+@StrigaViewEntry
+def main(ctx, out):
+	ctx.res.Status = 404
+
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+	<html:
+		<head:
+			<title:="404 Error"
+		<body:
+			="Ups!"

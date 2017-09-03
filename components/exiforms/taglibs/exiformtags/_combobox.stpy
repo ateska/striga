@@ -1,0 +1,24 @@
+
+class ComboBox(SingletonTag):
+
+	@classmethod
+	def Empty(cls, ctx, out, attr, postfix = ':&nbsp;'):
+		formd = ctx.Stack.front('exiforms.formd')
+		attrdescr = formd.GetAttributeDescriptor(attr)
+
+		if (formd.ViewMode == 'show') or (attrdescr.ReadOnly):
+			labels = dict()
+			for o in attrdescr.GetOptions():
+				labels[o[0]] = o[1]
+			=labels[getattr(formd.Items, attr)]
+		else:
+			value = getattr(formd.Items, attr)
+			<select:
+				for option in attrdescr.GetOptions():
+					if value == option[0]:
+					 	<option value=option[0] selected="1":
+					 		=option[1]
+					else:
+					 	<option value=option[0]:
+					 		=option[1]
+

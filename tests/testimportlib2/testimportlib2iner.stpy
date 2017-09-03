@@ -1,0 +1,10 @@
+
+class TestTag2(PairTag):
+
+	@classmethod
+	def Start(cls, ctx, out):
+		='[IntertagStart--'
+
+	@classmethod
+	def End(cls, ctx, out):
+		=' --IntertagStartEnd]'

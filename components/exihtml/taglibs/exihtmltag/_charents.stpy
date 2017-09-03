@@ -1,0 +1,162 @@
+'''
+Examples:
+
+	(as active tags)
+	<exihtmltag.mdash
+	<exihtmltag.ndash
+
+	(as entities)
+	=|~|exihtmltag.mdash.ent
+	=|~|exihtmltag.ndash.ent
+
+See http://en.wikipedia.org/wiki/Dash
+See http://www.cs.tut.fi/~jkorpela/chars/spaces.html
+
+'''
+
+###
+
+class charent(SingletonTag):
+
+	ent = '?'
+
+	@classmethod
+	def Empty(cls, ctx, out):
+		=|~|cls.ent
+
+###
+
+class mdash(charent):
+	ent = '&mdash;'
+
+###
+
+class ndash(charent):
+	'''Half the width of an em dash'''
+	ent = '&ndash;'
+
+###
+
+class fdash(charent):
+	'''The figure dash is so named because it is the same width as a digit, at least in fonts with digits of equal width.'''
+	ent = '&#8210;'
+
+###
+
+class hbar(charent):
+	'''The horizontal bar or is used to introduce quoted text.'''
+	ent = '&#8213;'
+
+###
+
+
+class sdash(charent):
+	'''The swung dash resembles a lengthened tilde, and is used to separate alternatives or approximates.'''
+	ent = '&#8275;'
+
+###
+
+class nbsp(charent):
+	'''No-break Space'''
+	ent = '&nbsp;'
+
+###
+
+class zwsp(charent):
+	'''Zero Width Space'''
+	ent = '&#8203;'
+
+###
+
+class zwnbsp(charent):
+	'''Zero Width No-break Space
+	Firefox seems to ignore this character ...
+	'''
+	ent = '&#65279;'
+
+###
+
+class nnbsp(charent):
+	'''Narrow No-break Space'''
+	ent = '&#8239;'
+
+###
+
+class enqd(charent):
+	'''En Quad - 1 en (= 1/2 em)'''
+	ent = '&#8192;'
+
+###
+
+class emqd(charent):
+	'''Em Quad - 1 em (nominally, the height of the font)'''
+	ent = '&#8193;'
+
+###
+
+class ensp(charent):
+	'''En Space - 1 en (= 1/2 em)'''
+	ent = '&#8194;'
+
+###
+
+class emsp(charent):
+	'''Em Space - 1 em'''
+	ent = '&#8195;'
+
+###
+
+class em3sp(charent):
+	'''Three-per-em space - 1/3 em'''
+	ent = '&#8196;'
+
+###
+
+class em4sp(charent):
+	'''Four-per-em space - 1/4 em'''
+	ent = '&#8197;'
+
+###
+
+class em6sp(charent):
+	'''Six-per-em space - 1/6 em'''
+	ent = '&#8198;'
+
+###
+
+class fsp(charent):
+	'''Figure space - the width of digits'''
+	ent = '&#8199;'
+
+###
+
+class psp(charent):
+	'''Punctuation space - the width of a period "."'''
+	ent = '&#8200;'
+
+###
+
+class tsp(charent):
+	'''Thin space - 1/5 em (or sometimes 1/6 em)'''
+	ent = '&#8201;'
+
+###
+
+class hsp(charent):
+	'''Hair space - narrower than THIN SPACE'''
+	ent = '&#8202;'
+
+###
+
+class mmsp(charent):
+	'''Medium mathematical space - narrower than THIN SPACE'''
+	ent = '&#8287;'
+
+###
+
+class cmntsp(SingletonTag):
+	'''Comment space - zero width but still content of the tag'''
+
+	@classmethod
+	def Empty(cls, ctx, out):
+		=|~|'<!-- -->'

@@ -1,0 +1,26 @@
+@StrigaViewEntry
+def main(ctx, out, color):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+
+	<html:
+		<head:
+			<title:="Action Controller Test Page"
+			<link rel="stylesheet" type="text/css" href="/css/striga.css"
+		<body:
+			<h1:
+				= 'Action Controller Test Page'
+
+			<b:
+				='Current color: '
+			=color
+
+			<form method="POST":
+
+				<div:
+					<input type="submit" name="!green" value="Green"
+
+				<div:
+					<input type="submit" name="!yellow" value="Yellow"
+
+				<div:
+					<input type="submit" name="!red" value="Red"

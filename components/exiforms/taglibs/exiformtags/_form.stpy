@@ -1,0 +1,23 @@
+import os
+
+###
+
+class Form(PairTag):
+
+	@classmethod
+	def Start(cls, ctx, out, formd, **kwargs):
+
+		# Put FormDescriptor on the stack
+		ctx.Stack.push('exiforms.formd', formd)
+
+		if formd.ViewMode != 'show':
+			<form.Start(action=formd.Controller.ControllerBaseURL + '/' + str(formd.GetID()), method='POST', **kwargs)
+
+
+	@classmethod
+	def End(cls, ctx, out):
+		# Pop Page Stack Object on the stack
+		formd = ctx.Stack.pop('exiforms.formd')
+
+		if formd.ViewMode != 'show':
+			<form.End()

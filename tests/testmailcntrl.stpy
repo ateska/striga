@@ -1,0 +1,49 @@
+@StrigaViewEntry
+def main(ctx, out):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+	<html:
+		<head:
+			<title: ="Striga mail frontend test"
+		<body:
+			<h1: ="Striga mail frontend test"
+
+			if ctx.req.Method == 'POST':
+				mailpath=ctx.req.Vars.POST.GetOne('sendmail', None)
+				if mailpath is not None:
+					
+					mfrom = ctx.req.Vars.POST.GetOne('t1from',None)
+					mto = ctx.req.Vars.POST.GetOne('t1to',None)
+
+					kwargs = {}
+
+					mcc = ctx.req.Vars.POST.GetOne('t1cc',None)
+					if mcc is not None and len(mcc) > 0: kwargs['mailcc'] = mcc
+
+					mbcc = ctx.req.Vars.POST.GetOne('t1bcc',None)
+					if mbcc is not None and len(mbcc) > 0: kwargs['mailbcc'] = mbcc
+				
+					if mfrom is not None and mto is not None:
+						ctx.app.Services.MailFrontend.SendMail(mailpath, mailfrom=mfrom, mailto=mto, **kwargs)
+
+			<form method="POST":
+				<h2:
+					="testmail1"
+
+				="From:"
+				<input type="text" name="t1from" value=ctx.req.Vars.POST.GetOne('t1from','')
+				<br
+
+				="To:"
+				<input type="text" name="t1to" title="Use ',' for more recipients" value=ctx.req.Vars.POST.GetOne('t1to','')
+				<br
+
+				="CC:"
+				<input type="text" name="t1cc" title="Use ',' for more recipients" value=ctx.req.Vars.POST.GetOne('t1cc','')
+				<br
+
+				="BCC:"
+				<input type="text" name="t1bcc" title="Use ',' for more recipients" value=ctx.req.Vars.POST.GetOne('t1bcc','')
+				<br
+
+				<input type="hidden" name="sendmail" value="/testmail1"
+				<input type="submit" value="Send!" name="!"

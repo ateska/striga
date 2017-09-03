@@ -1,0 +1,11 @@
+tagimport _form, _label, _editbox, _button, _combobox
+
+###
+
+Form = _form.Form
+Label = _label.Label
+EditBox = _editbox.EditBox
+TextArea = _editbox.TextArea
+ComboBox = _combobox.ComboBox
+
+Buttons = _button.Buttons

@@ -1,0 +1,9 @@
+class TestTag(PairTag):
+
+	@classmethod
+	def Start(cls, ctx, out):
+		='[Start-- '
+
+	@classmethod
+	def End(cls, ctx, out):
+		=' --End]'

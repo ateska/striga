@@ -1,0 +1,68 @@
+import striga.server.application
+@StrigaViewEntry
+def main(ctx, out):
+
+	statusmsg = None
+	app = striga.server.application.GetInstance()
+
+	###
+
+	if ctx.req.Vars.POST.has_key('ReloadID'):
+		rid = int(ctx.req.Vars.POST['ReloadID'])
+		for key, loadable in app.Services.Loader.IterLoaderCache():
+			if rid == id(key):
+				app.ScheduleWorker(loadable.ForceLoad)
+
+		statusmsg = "Reloading initiated"
+
+	###
+
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+	<html:
+		<head:
+			<title:="Striga Loader Status"
+			<link rel="stylesheet" href="/devel.css" type="text/css"
+
+		<body:
+			<h1:='Striga Loader Status'
+
+			<div class="nav":
+				<a href="loaderdep": = 'Download dependency graph'
+
+			if statusmsg is not None:
+				<div class="status-msg":
+					= statusmsg
+
+			<table:
+				<tr:
+					<th: = 'ID'
+					<th: = 'Cache key'
+					<th: = 'Status'
+					<th: = 'Control'
+
+				for key, loadable in app.Services.Loader.IterLoaderCache():
+					<tr:
+						if loadable.GetStatus() == loadable.States.Loaded:
+							status = 'green'
+						elif loadable.GetStatus() in (loadable.States.NotLoaded, loadable.States.NotFound) and loadable.GetError() is None:
+							status = 'yellow'
+						else:
+							status = 'red'
+
+						<td class="status" style="background-color:%s" % status :
+							= id(key)
+
+						<td:
+							for item in key:
+								= item
+								<br
+
+						<td:
+							for line in loadable.GetStatusString().split('\n'):
+								= line
+								<br
+
+						<td:
+							<form action="loaderstatus" method="post":
+								<input type="hidden" name="ReloadID" value=id(key)
+								<input type="submit" value="Reload"

@@ -1,0 +1,22 @@
+import md5
+
+@StrigaViewEntry
+def main(ctx, out):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+
+	<html:
+		<head:
+			<title:="Test page"
+		<body:
+			if ctx.req.Vars.POST.has_key('testfile'):
+				tfile = ctx.req.Vars.POST.Get('testfile')
+				m = md5.new(tfile.GetFile().read())
+				<p id="result": = m.hexdigest()
+				
+
+			<hr
+
+			<form action="/testupload" method="post" enctype="multipart/form-data":
+				<input type="file" name="testfile"
+				<br
+				<input type="submit"

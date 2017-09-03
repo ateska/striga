@@ -1,0 +1,50 @@
+class TableDefClass(object):
+
+	Caption = None
+
+	def __init__(self, content):
+		self.Content = content
+
+	def GetRowClass(self, ctx, out, row, rowcls):
+		return rowcls
+
+	def RowTag(self, ctx, out, row, rowcls):
+		<tr class=' '.join(self.GetRowClass(ctx,out,row,rowcls)):
+			self.Row(ctx, out, row)
+
+###
+
+#TODO: Must be a little bit more AJAX friendly (delivering of rows only for example)
+
+class table(SingletonTag):
+
+	@classmethod
+	def Empty(cls, ctx, out, dfc, class_='table', id_=None):
+
+		<table class=class_ id=id_:
+
+			if dfc.Caption is not None:
+				<caption: =dfc.Caption
+
+			if hasattr(dfc, 'THead'):
+				<thead:
+					dfc.THead(ctx, out)
+
+			<tbody:
+				if hasattr(dfc, 'Header'):
+					<tr class="hrow":
+						dfc.Header(ctx, out)
+
+				odd = False
+				for row in dfc.Content:
+
+					rowcls = []
+					if odd: rowcls.append('orow')
+					else: rowcls.append('erow')
+					odd = not odd
+
+					dfc.RowTag(ctx, out, row, rowcls)
+
+			if hasattr(dfc, 'TFoot'):
+				<tfoot:
+					dfc.TFoot(ctx, out)

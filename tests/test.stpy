@@ -1,0 +1,10 @@
+@StrigaViewEntry
+def main(ctx, out):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+	<html:
+		<head:
+			<title:="Test page"
+		<body:
+			="Hello world!"
+			<br
+			<a href="http://www.cyberspace.cz/":='Link to Cyberspace'

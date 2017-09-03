@@ -1,0 +1,38 @@
+
+@StrigaViewEntry
+def main(ctx, out):
+	=|~| StrigaFileInfo.BuildMode.DocumentHeader
+
+	<html:
+		<head:
+			<title:="Test page"
+		<body:
+			=ctx.req.Vars.POST
+
+			<hr
+
+			<form action="/testpostvars" method="post":
+				<input type="text" name="teststring"
+				<br
+				<input type="text" name="teststringarr"
+				<br
+				<input type="text" name="teststringarr"
+				<br
+				<input type="submit"
+
+			<hr
+
+			<form action="/testpostvars" method="post" enctype="multipart/form-data":
+				<input type="text" name="teststring"
+				<br
+				<input type="text" name="teststringarr"
+				<br
+				<input type="text" name="teststringarr"
+				<br
+				<input type="file" name="testfile"
+				<br
+				<input type="file" name="testfilearr"
+				<br
+				<input type="file" name="testfilearr"
+				<br
+				<input type="submit"
